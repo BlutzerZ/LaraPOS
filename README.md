@@ -13,7 +13,7 @@
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/username/larapos.git
+    git clone https://github.com/BlutzerZ/LaraPOS.git
     cd larapos
     ```
 
