@@ -1,16 +1,16 @@
 # LaraPOS 🚀
 
-**LaraPOS** adalah aplikasi Point of Sale (POS) modern berbasis Laravel. Dirancang untuk memudahkan proses kasir, manajemen barang, dan transaksi dalam satu platform yang efisien.
+**LaraPOS** is a modern Point of Sale (POS) application built with Laravel. Designed to simplify cashier operations, inventory management, and transactions in one efficient platform.
 
-## ✨ Fitur Utama
+## ✨ Main Features
 
--   🛒 **Kasir:** Proses transaksi penjualan dengan cepat dan mudah.
--   📦 **Manajemen Barang:** Kelola data produk, stok, dan harga.
--   📑 **Manajemen Transaksi:** Pantau dan kelola riwayat transaksi secara real-time.
+-   🛒 **Cashier:** Fast and easy sales transaction processing.
+-   📦 **Inventory Management:** Manage product data, stock, and pricing.
+-   📑 **Transaction Management:** Monitor and manage transaction history in real-time.
 
-## ⚡ Instalasi
+## ⚡ Installation
 
-1. **Clone repository**
+1. **Clone the repository**
 
     ```bash
     git clone https://github.com/username/larapos.git
@@ -23,14 +23,14 @@
     composer install
     ```
 
-3. **Salin file environment**
+3. **Copy the environment file**
 
     ```bash
     cp .env.example .env
     ```
 
-4. **Atur konfigurasi `.env`**  
-   Sesuaikan pengaturan database dan konfigurasi lainnya sesuai kebutuhan.
+4. **Configure `.env`**  
+   Adjust the database and other configuration settings as needed.
 
 5. **Generate key & migrate database**
     ```bash
@@ -45,4 +45,5 @@
 
 ---
 
-Selamat menggunakan **LaraPOS** untuk kebutuhan bisnis Anda! 🎉
+Enjoy using **LaraPOS** for your business needs! 🎉
+
