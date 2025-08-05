@@ -33,6 +33,3 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::delete('/delete/{transaksi}', [TransaksiController::class, 'delete'])->name('delete');
     });
 });
-
-
-include __DIR__ . '/api.php';
