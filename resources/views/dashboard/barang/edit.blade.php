@@ -10,34 +10,39 @@
                         class="mr-4 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
                         <i class="fas fa-arrow-left text-xl"></i>
                     </a>
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">➕ Tambah Produk Baru</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">✏️ Edit Produk</h2>
                 </div>
-                <p class="text-gray-600">Isi form di bawah untuk menambahkan produk baru ke inventory</p>
+                <p class="text-gray-600">Edit informasi produk <strong>{{ $barang->name }}</strong></p>
             </div>
 
             <!-- Form -->
             <div class="bg-white rounded-2xl shadow-lg border p-6 md:p-8">
-                <form id="form-barang" class="space-y-6">
+                <form method="POST" action="{{ route('dashboard.barang.update', $barang->id) }}" class="space-y-6">
                     @csrf
+                    @method('PUT')
 
                     <div>
                         <label for="kode_barang" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Kode barang <span class="text-red-500">*</span>
+                            Kode Barang <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="kode_barang" name="kode_barang" value="{{ old('kode_barang') }}"
+                        <input type="text" id="kode_barang" name="kode_barang" value="{{ old('kode_barang', $barang->kode_barang) }}"
                             class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('kode_barang') border-red-500 @enderror"
                             placeholder="Masukkan kode barang" required>
-                        <span class="mt-1 text-sm text-red-600" id="error-kode_barang"></span>
+                        @error('kode_barang')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label for="nama_barang" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Nama Produk <span class="text-red-500">*</span>
+                            Nama Barang <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="nama_barang" name="nama_barang" value="{{ old('nama_barang') }}"
+                        <input type="text" id="nama_barang" name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}"
                             class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('nama_barang') border-red-500 @enderror"
-                            placeholder="Masukkan nama produk" required>
-                        <span class="mt-1 text-sm text-red-600" id="error-nama_barang"></span>
+                            placeholder="Masukkan nama barang" required>
+                        @error('nama_barang')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -45,13 +50,15 @@
                             Harga <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
-                            <span
-                                class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">Rp</span>
-                            <input type="number" id="harga" name="harga" value="{{ old('harga') }}"
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">Rp</span>
+                            <input type="number" id="harga" name="harga"
+                                value="{{ old('harga', $barang->harga) }}"
                                 class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('harga') border-red-500 @enderror"
                                 placeholder="0" min="0" required>
                         </div>
-                        <span class="mt-1 text-sm text-red-600" id="error-harga"></span>
+                        @error('harga')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Action Buttons -->
@@ -62,9 +69,9 @@
                             Batal
                         </a>
                         <button type="submit"
-                            class="flex-1 py-3 px-6 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold rounded-xl hover:opacity-90 transform hover:scale-105 transition-all duration-200">
+                            class="flex-1 py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl hover:opacity-90 transform hover:scale-105 transition-all duration-200">
                             <i class="fas fa-save mr-2"></i>
-                            Simpan Produk
+                            Update Barang
                         </button>
                     </div>
                 </form>
@@ -91,43 +98,6 @@
             if ($(window).width() < 768 && !$(e.target).closest('#sidebar, #mobile-menu-btn').length) {
                 $('#sidebar').removeClass('open');
             }
-        });
-
-        // Form submission as api
-        $('#form-barang').on('submit', function(e) {
-            e.preventDefault();
-            // Bersihkan error
-            $('#error-kode_barang').text('');
-            $('#error-nama_barang').text('');
-            $('#error-harga').text('');
-
-            $.ajax({
-                url: "{{ route('dashboard.barang.store') }}",
-                method: "POST",
-                data: $(this).serialize(),
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                },
-                success: function(response) {
-                    window.location.href = "{{ route('dashboard.barang.index') }}";
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
-                        if (errors.kode_barang) {
-                            $('#error-kode_barang').text(errors.kode_barang[0]);
-                        }
-                        if (errors.nama_barang) {
-                            $('#error-nama_barang').text(errors.nama_barang[0]);
-                        }
-                        if (errors.harga) {
-                            $('#error-harga').text(errors.harga[0]);
-                        }
-                    } else {
-                        alert('Terjadi kesalahan. Silakan coba lagi.');
-                    }
-                }
-            });
         });
     </script>
 @endsection
